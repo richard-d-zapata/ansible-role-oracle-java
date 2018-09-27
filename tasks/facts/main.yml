@@ -1,3 +1,6 @@
 ---
 - name: Define java_version
   include_tasks: java_version.yml
+
+- name: Define java_installer_filename
+  include_tasks: "{{ ansible_os_family }}/java_installer_filename.yml"

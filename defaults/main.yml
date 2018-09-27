@@ -6,3 +6,5 @@ java_version:
   interim: 0
   update: 0
   patch: 0
+
+java_type: jdk

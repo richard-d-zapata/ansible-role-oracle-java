@@ -1,9 +1,4 @@
 ---
-# tasks file for ansible-role-oracle-java
-
 - include_tasks: facts/main.yml
 
-- name: Create java_version file
-  template:
-    src: templates/java_version.j2
-    dest: /tmp/java_version
+- include_tasks: log/variables.yml
