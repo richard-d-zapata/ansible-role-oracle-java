@@ -18,3 +18,9 @@ def test_java_installer_filename_file(host):
 
     assert f.exists
     assert f.contains("jdk-11_linux-x64_bin.tar.gz\n")
+
+
+def test_installer_exists(host):
+    f = host.file('/tmp/jdk-11_linux-x64_bin.tar.gz')
+
+    assert f.exists
