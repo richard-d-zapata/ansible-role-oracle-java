@@ -1,0 +1,3 @@
+---
+- name: Define java_version
+  include_tasks: java_version.yml
