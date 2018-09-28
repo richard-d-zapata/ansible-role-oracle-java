@@ -1,0 +1,10 @@
+---
+default_java_destination_path: /usr/lib/jvm/
+default_java_environment_file_path: /etc/environment
+
+default_java_executables:
+  - jar
+  - java
+  - javac
+  - javadoc
+  - keytool

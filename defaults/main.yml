@@ -7,15 +7,3 @@ java_type: jdk
 
 java_installers_path_on_target: /tmp
 java_installers_path_on_controller: /Users/Shared/Installers
-
-java_destination_path: /usr/lib/jvm/
-java_environment_file_path: /etc/environment
-
-java_executables:
-  - jar
-  - java
-  - javac
-  - javadoc
-  - keytool
-
-java_version_parts: []
