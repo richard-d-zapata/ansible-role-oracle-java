@@ -1,13 +1,21 @@
 ---
 # Java version string components
 # https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
-java_version:
-  feature: 11
-  interim: 0
-  update: 0
-  patch: 0
+java_version: 11.0.0.0
 
 java_type: jdk
 
 java_installers_path_on_target: /tmp
 java_installers_path_on_controller: /Users/Shared/Installers
+
+java_destination_path: /usr/lib/jvm/
+java_environment_file_path: /etc/environment
+
+java_executables:
+  - jar
+  - java
+  - javac
+  - javadoc
+  - keytool
+
+java_version_parts: []

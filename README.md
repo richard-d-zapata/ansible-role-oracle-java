@@ -8,9 +8,9 @@ None
 
 ## Role Variables
 
-| Option                | Default | Example  |
-| :-------------------- | :------ | :------- |
-| `java_version_string` | `11`    | `10.0.2` |
+| Option         | Default | Example  |
+| :------------- | :------ | :------- |
+| `java_version` | `11`    | `10.0.2` |
 
 ## Dependencies
 
@@ -24,7 +24,7 @@ passed in as parameters) is always nice for users too:
     - name: Install Oracle JDK 11
       hosts: servers
       roles:
-         - { role: k2o.oracle-java }
+         - { role: kaos2oak.oracle-java }
 
 ## Role Testing
 

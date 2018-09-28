@@ -2,18 +2,27 @@
 # Build the Java version string as detailed here:
 #   https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
 
-- name: "Set java_version_string if not provided"
+- name: Parse java_version
+  set_fact:
+    java_version_parts:
+      feature: "{{ java_version.split('.')[0] }}"
+      interim: "{{ java_version.split('.')[1] | default('0') }}"
+      update: "{{ java_version.split('.')[2] | default('0') }}"
+      patch: "{{ java_version.split('.')[3] | default('0') }}"
+
+- name: Set java_version_string if not provided
   set_fact:
     java_version_string: |-
       {%- set version_subparts = ['patch', 'update', 'interim'] -%}
       {%- set version = { 'string': '' } -%}
       {%- for part in version_subparts %}
-      {%-   if java_version[part]|int != 0 or version.string != '' %}
-      {%-     if version.update({'string':'.' + java_version[part]|string + version.string}) %}{%- endif %}
+      {%-   if java_version_parts[part]|int != 0 or version.string != '' %}
+      {%-     if version.update({'string':'.' + java_version_parts[part]|string + version.string}) %}{%- endif %}
       {%-   endif %}
       {%- endfor %}
-      {%- if version.update({'string':java_version['feature']|string + version.string}) %}{%- endif %}
+      {%- if version.update({'string':java_version_parts['feature']|string + version.string}) %}{%- endif %}
       {{ version.string }}
-  when: java_version_string is not defined
 
-  # TODO: Parse the java_version_string back into java_version so we know they agree
+- name: Set java_type_and_version
+  set_fact:
+    java_type_and_version: "{{ java_type | default('jdk') }}-{{ java_version_string }}"

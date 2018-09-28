@@ -2,3 +2,5 @@
 - include_tasks: facts/set.yml
 - include_tasks: log/variables.yml
 - include_tasks: get/installer.yml
+- include_tasks: install/java.yml
+- include_tasks: select/java.yml
