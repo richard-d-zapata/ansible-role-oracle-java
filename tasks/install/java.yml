@@ -5,9 +5,5 @@
     state: directory
   become: true
 
-- name: Unarchive Java
-  unarchive:
-    src: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
-    dest: "{{ java_destination_path }}"
-    remote_src: true
-  become: true
+- name: Include OS-specific tasks
+  include_tasks: "{{ ansible_os_family }}/os-specific.yml"
