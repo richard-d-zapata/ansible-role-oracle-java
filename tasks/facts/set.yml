@@ -15,3 +15,6 @@
 
 - name: Define java_installer_filename
   include_tasks: "{{ ansible_os_family }}/java_installer_filename.yml"
+
+- name: Define values based on environment variables
+  include_tasks: env_vars.yml
