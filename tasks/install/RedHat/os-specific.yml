@@ -1,13 +1,12 @@
 ---
-# - name: Unarchive Java (RedHat)
-#   shell: "rpm -ivh {{ java_installers_path_on_target }}/{{ java_installer_filename }}"
-#   args:
-#     executable: /bin/bash
-#     creates: "{{ java_destination_path }}/{{ java_type_and_version }}"
-#   become: true
+- name: Create java_destination_path
+  file:
+    path: "{{ java_destination_path }}"
+    state: directory
+  become: true
 
 - name: Unarchive Java (RedHat)
   yum:
-     name: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
-     state: present
+    name: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
+    state: present
   become: true

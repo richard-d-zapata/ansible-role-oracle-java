@@ -1,9 +1,3 @@
 ---
-- name: Create java_destination_path
-  file:
-    path: "{{ java_destination_path }}"
-    state: directory
-  become: true
-
 - name: Include OS-specific tasks
   include_tasks: "{{ ansible_os_family }}/os-specific.yml"

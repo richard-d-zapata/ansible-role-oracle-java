@@ -1,4 +1,10 @@
 ---
+- name: Create java_destination_path
+  file:
+    path: "{{ java_destination_path }}"
+    state: directory
+  become: true
+
 - name: Unarchive Java (Debian)
   unarchive:
     src: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
