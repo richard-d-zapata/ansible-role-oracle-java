@@ -6,11 +6,20 @@ Install Oracle Java (JDK)
 
 None
 
+## Environment Variables
+
+| Option                       | Default | Example                               |
+| :--------------------------- | :------ | :------------------------------------ |
+| `JAVA_LINUX_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Linux/Java` |
+| `JAVA_MACOS_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/macOS/Java` |
+| `JAVA_INSTALLERS_PATH`       | none    | `/Users/Shared/Installers/Java`       |
+
 ## Role Variables
 
-| Option         | Default | Example  |
-| :------------- | :------ | :------- |
-| `java_version` | `11`    | `10.0.2` |
+| Option                 | Default                    | Example                         |
+| :--------------------- | :------------------------- | :------------------------------ |
+| `java_version`         | `11`                       | `10.0.2`                        |
+| `java_installers_path` | `/Users/Shared/Installers` | `/Users/Shared/Installers/Java` |
 
 ## Dependencies
 

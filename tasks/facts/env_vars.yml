@@ -1,18 +1,15 @@
 ---
-- name: Read JAVA_INSTALLERS_PATH_ON_CONTROLLER
+- name: Define os-specific environment variables
+  include_tasks: "{{ ansible_os_family }}/env_vars.yml"
+
+- name: Set java_installers_path (Generic)
   set_fact:
-    env_java_installers_path_on_controller: "{{ lookup('env', 'JAVA_INSTALLERS_PATH_ON_CONTROLLER' ) }}"
+    java_installers_path: "{{ lookup('env', 'JAVA_INSTALLERS_PATH' ) }}"
+  when: |-
+    java_installers_path is not defined and
+    (lookup('env', 'JAVA_INSTALLERS_PATH' ) is defined and lookup('env', 'JAVA_INSTALLERS_PATH' ) != '')
 
 - name: Set java_installers_path_on_controller
   set_fact:
-    java_installers_path_on_controller: "{{ env_java_installers_path_on_controller }}"
-  when: env_java_installers_path_on_controller is defined and env_java_installers_path_on_controller != ''
-
-- name: Read JAVA_INSTALLERS_PATH_ON_TARGET
-  set_fact:
-    env_java_installers_path_on_target: "{{ lookup('env', 'JAVA_INSTALLERS_PATH_ON_TARGET' ) }}"
-
-- name: Set java_installers_path_on_target
-  set_fact:
-    java_installers_path_on_target: "{{ env_java_installers_path_on_target }}"
-  when: env_java_installers_path_on_target is defined and env_java_installers_path_on_target != ''
+    java_installers_path_on_controller: "{{ java_installers_path }}"
+  when: java_installers_path is defined and java_installers_path != ''
