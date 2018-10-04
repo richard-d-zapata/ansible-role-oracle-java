@@ -1,7 +1,7 @@
 ---
 - name: Set java_installer_filename
   set_fact:
-    java_installer_filename: "{{ java_type }}-{{ java_version_string }}_osx-x64_bin.dmg"
+    java_installer_filename: "{{ java_type_and_version }}_osx-x64_bin.dmg"
 
 - name: Set java_package_filename
   set_fact:

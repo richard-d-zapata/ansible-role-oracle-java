@@ -1,4 +1,4 @@
 ---
 - name: Set java_installer_filename
   set_fact:
-    java_installer_filename: "{{ java_type }}-{{ java_version_string }}_linux-x64_bin.rpm"
+    java_installer_filename: "{{ java_type_and_version }}_linux-x64_bin.rpm"
