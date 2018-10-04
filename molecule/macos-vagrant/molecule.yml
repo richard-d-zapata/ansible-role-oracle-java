@@ -10,16 +10,17 @@ lint:
 platforms:
   - name: macos-10.13.5
     box: macos-10.13.5
-    memory: 3072
-    cpus: 2
-  - name: macos-10.12.6
-    box: macos-10.12.6
-    memory: 3072
-    cpus: 2
-  - name: osx-10.11.6
-    box: osx-10.11.6
     memory: 2048
-    cpus: 1
+    cpus: 2
+    # Probably shouldn't try to run all the VMs at the same time...
+    # - name: macos-10.12.6
+    #   box: macos-10.12.6
+    #   memory: 2048
+    #   cpus: 2
+    # - name: osx-10.11.6
+    #   box: osx-10.11.6
+    #   memory: 2048
+    #   cpus: 1
 provisioner:
   name: ansible
   lint:

@@ -18,7 +18,8 @@ def test_java_installer_filename_file(host):
 
 
 def test_installer_exists(host):
-    f = host.file("C:\\Program Files\\Ansible\\temp\\jdk-11_windows-x64_bin.exe")
+    f = host.file(
+        "C:\\Program Files\\Ansible\\temp\\jdk-11_windows-x64_bin.exe")
     assert f.exists
 
 

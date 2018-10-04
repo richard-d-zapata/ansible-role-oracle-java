@@ -21,7 +21,7 @@ platforms:
     memory: 2048
     cpus: 2
     provider_options:
-      gui: true
+      gui: false
     provision: true
 provisioner:
   name: ansible
