@@ -1,0 +1,50 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: windows-2012r2
+    instance_raw_config_args:
+      - "vm.guest = :windows"
+      - "vm.communicator = 'winrm'"
+      - "winrm.port = '55985'"
+      - "winrm.username = 'vagrant'"
+      - "winrm.password = 'vagrant'"
+      - "winrm.timeout = 600"
+      - "winrm.retry_limit = 5"
+    box: windows-2012r2
+    memory: 2048
+    cpus: 2
+    provider_options:
+      gui: true
+    provision: true
+provisioner:
+  name: ansible
+  log: true
+  inventory:
+    host_vars:
+      windows-2012r2:
+        ansible_become: false
+        ansible_user: vagrant
+        ansible_password: vagrant
+        ansible_port: 55985
+        ansible_connection: winrm
+        ansible_winrm_scheme: http
+        ansible_winrm_server_cert_validation: ignore
+  lint:
+    name: ansible-lint
+scenario:
+  name: windows-vagrant
+  test_sequence:
+    - lint
+    - destroy
+    # - syntax
+    - create
+    - converge
+    # - verify
+    - destroy

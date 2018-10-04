@@ -1,18 +1,8 @@
 ---
-- name: Create java_installers_path_on_target if needed
-  file:
-    path: "{{ java_installers_path_on_target }}"
-    state: directory
-    mode: 0777
-  become: true
+- name: Include Windows tasks
+  include_tasks: Windows/os-specific.yml
+  when: ansible_os_family == "Windows"
 
-- name: Copy installer to target
-  copy:
-    src: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
-    dest: "{{ java_installers_path_on_target }}"
-
-- name: Check for installer
-  stat:
-    path: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
-  register: installer
-  failed_when: installer.stat.exists != true
+- name: Include Unix tasks
+  include_tasks: Unix/os-specific.yml
+  when: ansible_os_family != "Windows"

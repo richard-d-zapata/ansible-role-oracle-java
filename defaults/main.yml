@@ -5,5 +5,4 @@ java_version: 11.0.0.0
 
 java_type: jdk
 
-java_installers_path_on_target: /tmp
 java_installers_path_on_controller: /Users/Shared/Installers

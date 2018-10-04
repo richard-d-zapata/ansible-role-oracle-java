@@ -1,0 +1,10 @@
+---
+- name: Create java_version file
+  template:
+    src: templates/java_version.j2
+    dest: /tmp/java_version
+
+- name: Create java_installer_filename file
+  template:
+    src: templates/java_installer_filename.j2
+    dest: /tmp/java_installer_filename

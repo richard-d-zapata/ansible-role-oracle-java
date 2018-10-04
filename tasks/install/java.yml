@@ -1,3 +1,7 @@
 ---
 - name: Include OS-specific tasks
   include_tasks: "{{ ansible_os_family }}/os-specific.yml"
+
+- name: Include Unix post-install tasks
+  include_tasks: Unix/post-install.yml
+  when: ansible_os_family != "Windows"

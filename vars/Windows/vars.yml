@@ -1,0 +1,3 @@
+---
+default_java_destination_path: C:\Program Files\Java
+default_java_installers_path_on_target: '{{ ansible_env.ProgramFiles }}\\Ansible\\temp'
