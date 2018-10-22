@@ -9,7 +9,7 @@
     src: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
     dest: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
 
-- name: Check for installer
+- name: Check for installer (Windows)
   win_stat:
     path: "\"{{ java_installers_path_on_target }}\\{{ java_installer_filename }}\""
   register: installer

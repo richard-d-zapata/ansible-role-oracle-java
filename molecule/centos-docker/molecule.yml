@@ -26,6 +26,7 @@ scenario:
     - destroy
 verifier:
   name: testinfra
+  directory: ../tests/
   options:
     verbose: true
   lint:

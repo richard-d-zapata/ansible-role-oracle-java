@@ -18,8 +18,17 @@ provisioner:
     name: ansible-lint
 scenario:
   name: ubuntu-vagrant
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - verify
+    - destroy
 verifier:
   name: testinfra
+  directory: ../tests/
   options:
     verbose: true
   lint:

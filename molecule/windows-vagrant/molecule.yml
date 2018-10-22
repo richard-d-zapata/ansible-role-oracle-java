@@ -7,8 +7,11 @@ driver:
     name: virtualbox
 lint:
   name: yamllint
+
 platforms:
   - name: windows-2012r2
+    ansible_groups:
+      - windows
     instance_raw_config_args:
       - "vm.guest = :windows"
       - "vm.communicator = 'winrm'"
@@ -25,8 +28,18 @@ platforms:
     provision: true
 provisioner:
   name: ansible
-  log: true
   inventory:
+    # Haven't been able to get group_vars to work.  Am I missing something
+    # or is this not working with molecule 2.18.1?
+    # group_vars:
+    #   windows:
+    #     ansible_become: false
+    #     ansible_user: vagrant
+    #     ansible_password: vagrant
+    #     ansible_port: 55985
+    #     ansible_connection: winrm
+    #     ansible_winrm_scheme: http
+    #     ansible_winrm_server_cert_validation: ignore
     host_vars:
       windows-2012r2:
         ansible_become: false
@@ -38,13 +51,22 @@ provisioner:
         ansible_winrm_server_cert_validation: ignore
   lint:
     name: ansible-lint
+  log: true
 scenario:
   name: windows-vagrant
   test_sequence:
     - lint
     - destroy
-    # - syntax
+    - syntax
     - create
     - converge
     # - verify
     - destroy
+verifier:
+  name: testinfra
+  directory: ../tests/
+  options:
+    verbose: true
+  lint:
+    name: flake8
+    enabled: false
