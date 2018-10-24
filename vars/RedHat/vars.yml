@@ -1,5 +1,5 @@
 ---
-default_java_destination_path: /usr/java/
+default_java_destination_path: /usr/java
 default_java_environment_file_path: /etc/environment
 
 default_java_executables:

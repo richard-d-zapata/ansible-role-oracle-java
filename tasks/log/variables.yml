@@ -1,7 +1,7 @@
 ---
-# - name: Include Windows tasks
-#   include_tasks: Windows/os-specific.yml
-#   when: ansible_os_family == "Windows"
+- name: Include Windows tasks
+  include_tasks: Windows/os-specific.yml
+  when: ansible_os_family == "Windows"
 
 - name: Include Unix tasks
   include_tasks: Unix/os-specific.yml

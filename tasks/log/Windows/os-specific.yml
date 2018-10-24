@@ -1,1 +1,17 @@
 ---
+- name: Ensure java_installers_path_on_target exists (Windows)
+  win_file:
+    path: "{{ java_installers_path_on_target }}"
+    state: directory
+
+- name: Log java_version for testing (Windows)
+  win_lineinfile:
+    path: "{{ java_installers_path_on_target }}\\vars_log.txt"
+    line: "java_version={{ java_version }}"
+    create: true
+
+- name: Log java_installer_filename for testing (Windows)
+  win_lineinfile:
+    path: "{{ java_installers_path_on_target }}\\vars_log.txt"
+    line: "java_installer_filename={{ java_installer_filename }}"
+    create: true

@@ -1,17 +1,17 @@
 ---
-- name: Create java_installers_path_on_target if needed
+- name: Ensure java_installers_path_on_target exists (Unix)
   file:
     path: "{{ java_installers_path_on_target }}"
     state: directory
     mode: 0777
   become: true
 
-- name: Copy installer to target
+- name: Copy installer to target (Unix)
   copy:
     src: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
     dest: "{{ java_installers_path_on_target }}"
 
-- name: Check for installer
+- name: Check for installer (Unix)
   stat:
     path: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
   register: installer

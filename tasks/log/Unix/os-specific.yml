@@ -1,11 +1,18 @@
 ---
-- name: Log java_version for testing
+- name: Ensure java_installers_path_on_target exists (Unix)
+  file:
+    path: "{{ java_installers_path_on_target }}"
+    state: directory
+    mode: 0777
+  become: true
+
+- name: Log java_version for testing (Unix)
   lineinfile:
     path: "{{ java_installers_path_on_target }}/vars_log.txt"
     line: "java_version={{ java_version }}"
     create: true
 
-- name: Log java_installer_filename for testing
+- name: Log java_installer_filename for testing (Unix)
   lineinfile:
     path: "{{ java_installers_path_on_target }}/vars_log.txt"
     line: "java_installer_filename={{ java_installer_filename }}"

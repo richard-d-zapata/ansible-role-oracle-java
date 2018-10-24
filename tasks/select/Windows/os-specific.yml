@@ -1,18 +1,18 @@
 ---
-- name: Select java_version
+- name: Select java_version (Windows)
   win_path:
     elements:
-      - "\"{{ java_destination_path }}\\{{ java_type_and_version }}\\bin\""
+      - "\"{{ java_destination_path }}\\{{ java_dir_string }}\\bin\""
 
-- name: Set JAVA_HOME
+- name: Set JAVA_HOME (Windows)
   win_environment:
     state: present
     name: JAVA_HOME
-    value: "\"{{ java_destination_path }}\\{{ java_type_and_version }}\""
+    value: "\"{{ java_destination_path }}\\{{ java_dir_string }}\""
     level: machine
 
-- name: Get Installed Java Version
-  win_command: "\"{{ java_destination_path }}\\{{ java_type_and_version }}\\bin\\java\" -version"
+- name: Get Installed Java Version (Windows)
+  win_command: "\"{{ java_destination_path }}\\{{ java_dir_string }}\\bin\\java\" -version"
   register: java_version_result
 
 - name: Java Version

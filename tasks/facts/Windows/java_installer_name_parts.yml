@@ -1,0 +1,14 @@
+---
+- name: Set java_installer_suffix (legacy Windows)
+  set_fact:
+    java_installer_suffix: '-windows-x64'
+  when: java_version_style == 'legacy'
+
+- name: Set java_installer_suffix (modern Windows)
+  set_fact:
+    java_installer_suffix: '_windows-x64_bin'
+  when: java_version_style == 'modern'
+
+- name: Set java_installer_ext (Windows)
+  set_fact:
+    java_installer_ext: '.exe'

@@ -1,28 +1,15 @@
 ---
-# Build the Java version string as detailed here:
-#   https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
+- debug:
+    msg: "Java version: {{ java_version }}"
 
-- name: Parse java_version
+- name: Define java_version_style
   set_fact:
-    java_version_parts:
-      feature: "{{ java_version.split('.')[0] }}"
-      interim: "{{ java_version.split('.')[1] | default('0') }}"
-      update: "{{ java_version.split('.')[2] | default('0') }}"
-      patch: "{{ java_version.split('.')[3] | default('0') }}"
+    java_version_style: |-
+      {%- if (java_version|string).split('.')[0]|int > 8 %}
+      modern
+      {%- else %}
+      legacy
+      {%- endif %}
 
-- name: Set java_version_string if not provided
-  set_fact:
-    java_version_string: |-
-      {%- set version_subparts = ['patch', 'update', 'interim'] -%}
-      {%- set version = { 'string': '' } -%}
-      {%- for part in version_subparts %}
-      {%-   if java_version_parts[part]|int != 0 or version.string != '' %}
-      {%-     if version.update({'string':'.' + java_version_parts[part]|string + version.string}) %}{%- endif %}
-      {%-   endif %}
-      {%- endfor %}
-      {%- if version.update({'string':java_version_parts['feature']|string + version.string}) %}{%- endif %}
-      {{ version.string }}
-
-- name: Set java_type_and_version
-  set_fact:
-    java_type_and_version: "{{ java_type | default('jdk') }}-{{ java_version_string }}"
+- name: Define java_version based on style
+  include_tasks: "java_version_style/{{ java_version_style }}.yml"

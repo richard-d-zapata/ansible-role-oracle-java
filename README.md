@@ -2,9 +2,9 @@
 
 Install Oracle Java (JDK)
 
-This role is designed to install Java 11.  It may install version 10, but has
-not been tested.  It is not designed for versions below 10 and Oracle's new
-Java naming scheme.
+This role is designed to install Java JDK. The role should work with Java
+versions 7 and higher, but has not been extensively tested on all possible
+minor versions.
 
 ## Requirements
 
@@ -36,12 +36,13 @@ tests with vagrant:
 | `JAVA_MACOS_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/macOS/Java`   |
 | `JAVA_WINDOWS_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java` |
 | `JAVA_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`         |
+| `JAVA_VERSION`                 | '11'    | `10.0.2` or `1.8.0_192`                 |
 
 ## Role Variables
 
 | Option                 | Default                    | Example                         |
 | :--------------------- | :------------------------- | :------------------------------ |
-| `java_version`         | `11`                       | `10.0.2`                        |
+| `java_version`         | `11`                       | `10.0.2` or `1.8.0_192`         |
 | `java_installers_path` | `/Users/Shared/Installers` | `/Users/Shared/Installers/Java` |
 
 ## Dependencies
@@ -50,7 +51,7 @@ None
 
 ## Example Playbook
 
-    - name: Install Oracle JDK 11
+    - name: Install Oracle JDK
       hosts: servers
       roles:
          - { role: kaos2oak.oracle-java }
@@ -77,11 +78,34 @@ tests with vagrant (see [Requirements](#requirements)):
 
     export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+The 'verifier' for Windows is disabled as I have not yet been able to get the
+testinfra verfication to work for Windows. If you have any experience or advice
+in this area, please let me know.
+
+### Java Versions
+
+To run the molecule tests for a particular Java version, you will need to
+provide the `JAVA_VERSION` as an environment variable and ensure the installer
+is located locally in the appropriate ...`INSTALLERS_PATH` location. See
+examples, below.
+
+It is also possible to edit the `molecule.yml` file for a scenario and
+specify the java_version like this:
+
+    provisioner:
+      name: ansible
+      env:
+        JAVA_VERSION: 1.8.0_192
+
 ### Default Tests
 
 Ubuntu 18, CentOS 7 via docker:
 
     molecule test
+
+or
+
+    JAVA_VERSION=1.8.0_192 molecule test
 
 ### Ubuntu Tests
 

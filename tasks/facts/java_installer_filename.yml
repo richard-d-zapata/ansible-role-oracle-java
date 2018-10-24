@@ -1,0 +1,7 @@
+---
+- name: Define java_installer_name_parts
+  include_tasks: "{{ ansible_os_family }}/java_installer_name_parts.yml"
+
+- name: Set java_installer_filename
+  set_fact:
+    java_installer_filename: "{{ java_type_string }}-{{ java_version_short_string }}{{ java_installer_suffix }}{{ java_installer_ext }}"

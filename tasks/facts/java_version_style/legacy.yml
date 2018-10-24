@@ -1,0 +1,37 @@
+---
+# Build the legacy Java version string:
+#  Example: 1.8.0_192
+
+- name: Parse java_version
+  set_fact:
+    java_version_parts:
+      major: "{{ (java_version|string).split('_')[0].split('.')[1] }}"
+      minor: "{{ (java_version|string).split('_')[1] }}"
+
+- name: Set java_version_string
+  set_fact:
+    java_version_string: "{{ java_version }}"
+
+- name: Set java_version_short_string if not provided
+  set_fact:
+    java_version_short_string: |-
+      {%- set version = { 'string': '' } -%}
+      {%- if version.update({'string':java_version_parts['minor']|string + version.string}) %}{%- endif %}
+      {%- if version.update({'string':java_version_parts['major']|string + 'u' + version.string}) %}{%- endif %}
+      {{ version.string }}
+
+- name: Set java_type_string
+  set_fact:
+    java_type_string: "{{ java_type | default('jdk') }}"
+
+- name: Set java_dir_string
+  set_fact:
+    java_dir_string: "{{ java_type_string }}{{ java_version_string }}"
+
+- name: Set java_type_and_version
+  set_fact:
+    java_type_and_version: "{{ java_type | default('jdk') }}-{{ java_version_string }}"
+
+- name: Set java_type_and_version_short
+  set_fact:
+    java_type_and_version_short: "{{ java_type | default('jdk') }}-{{ java_version_short_string }}"

@@ -1,5 +1,5 @@
 ---
-- name: Ensure java_environment_file_path file exists
+- name: Ensure java_environment_file_path file exists (macOS)
   file:
     path: "{{ java_environment_file_path }}"
     owner: "{{ ansible_user }}"
@@ -7,12 +7,12 @@
     state: touch
     mode: 0644
 
-- name: Set JAVA_HOME
+- name: Set JAVA_HOME (macOS)
   lineinfile:
     dest: "{{ java_environment_file_path }}"
     state: present
     regexp: '^export\\s+JAVA_HOME'
     line: "export JAVA_HOME=$(/usr/libexec/java_home -v {{ java_type_and_version }})"
 
-- name: Source user profile
+- name: Source user profile (macOS)
   shell: "source {{ java_environment_file_path }}"

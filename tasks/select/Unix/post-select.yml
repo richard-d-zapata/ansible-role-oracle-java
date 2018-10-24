@@ -1,5 +1,5 @@
 ---
-- name: Get Installed Java Version
+- name: Get Installed Java Version (Unix)
   command: java -version
   register: java_version_result
 

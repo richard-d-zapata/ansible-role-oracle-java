@@ -1,4 +1,0 @@
----
-- name: "Set java_installer_filename"
-  set_fact:
-    java_installer_filename: "{{ java_type_and_version }}_linux-x64_bin.tar.gz"
