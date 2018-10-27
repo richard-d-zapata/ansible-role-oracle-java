@@ -1,0 +1,44 @@
+---
+# Build the modern Java version string as detailed here:
+#   https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
+
+- name: Parse java_version
+  set_fact:
+    java_version_parts:
+      feature: "{{ (java_version|string).split('.')[0] }}"
+      interim: "{{ (java_version|string).split('.')[1] | default('0') }}"
+      update: "{{ (java_version|string).split('.')[2] | default('0') }}"
+      patch: "{{ (java_version|string).split('.')[3] | default('0') }}"
+
+- name: Set java_version_string if not provided
+  set_fact:
+    java_version_string: |-
+      {%- set version_subparts = ['patch', 'update', 'interim'] -%}
+      {%- set version = { 'string': '' } -%}
+      {%- for part in version_subparts %}
+      {%-   if java_version_parts[part]|int != 0 or version.string != '' %}
+      {%-     if version.update({'string':'.' + java_version_parts[part]|string + version.string}) %}{%- endif %}
+      {%-   endif %}
+      {%- endfor %}
+      {%- if version.update({'string':java_version_parts['feature']|string + version.string}) %}{%- endif %}
+      {{ version.string }}
+
+- name: Set java_version_short_string
+  set_fact:
+    java_version_short_string: "{{ java_version_string }}"
+
+- name: Set java_type_string
+  set_fact:
+    java_type_string: "{{ java_type | default('jdk') }}"
+
+- name: Set java_dir_string
+  set_fact:
+    java_dir_string: "{{ java_type_string }}-{{ java_version_string }}"
+
+- name: Set java_crypto_style
+  set_fact:
+    java_crypto_style: modern
+
+- name: Set java_security_path (modern)
+  set_fact:
+    java_security_path: "{{ java_destination_path }}/{{ java_dir_string }}{{ default_java_modern_security_subpath }}"

@@ -1,0 +1,8 @@
+---
+- name: Set jce_archive_name (Java 7)
+  set_fact:
+    jce_archive_name: "UnlimitedJCEPolicyJDK{{ java_version_parts['major'] }}.zip"
+
+- name: Set jce_extracted_subpath (Java 7)
+  set_fact:
+    jce_extracted_subpath: UnlimitedJCEPolicy

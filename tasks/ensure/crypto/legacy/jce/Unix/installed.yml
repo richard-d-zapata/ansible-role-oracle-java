@@ -1,0 +1,29 @@
+---
+- name: Set jce_extract_path (Unix)
+  set_fact:
+    jce_extract_path: "{{ java_installers_path_on_target }}/jce_extract"
+
+- name: Ensure jce_extract_path exists (Unix)
+  file:
+    path: "{{ jce_extract_path }}"
+    state: directory
+
+- name: Unzip JCE archive (Unix)
+  unarchive:
+    src: "{{ java_installers_path_on_target }}/{{ jce_archive_name }}"
+    dest: "{{ jce_extract_path }}"
+    remote_src: true
+
+- name: Install JCE local_policy.jar file (Unix)
+  copy:
+    src: "{{ jce_extract_path }}/{{ jce_extracted_subpath }}/local_policy.jar"
+    dest: "{{ java_security_path }}/local_policy.jar"
+    remote_src: true
+  become: true
+
+- name: Install JCE US_export_policy.jar file (Unix)
+  copy:
+    src: "{{ jce_extract_path }}/{{ jce_extracted_subpath }}/US_export_policy.jar"
+    dest: "{{ java_security_path }}/US_export_policy.jar"
+    remote_src: true
+  become: true

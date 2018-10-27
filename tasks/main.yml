@@ -1,6 +1,7 @@
 ---
-- include_tasks: facts/set.yml
+- include_tasks: set/facts.yml
 - include_tasks: log/variables.yml
-- include_tasks: get/installer.yml
-- include_tasks: install/java.yml
-- include_tasks: select/java.yml
+- include_tasks: ensure/java/installed.yml
+- include_tasks: ensure/java/version/selected.yml
+- include_tasks: ensure/crypto/enabled.yml
+- include_tasks: report/state.yml

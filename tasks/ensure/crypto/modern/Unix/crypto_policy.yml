@@ -1,0 +1,7 @@
+---
+- name: Ensure crypto.policy for Java is unlimited (Unix)
+  replace:
+    path: "{{ java_security_path }}/java.security"
+    regexp: '^\s*#*\s*crypto.policy=.*$'
+    replace: 'crypto.policy=unlimited'
+  become: true

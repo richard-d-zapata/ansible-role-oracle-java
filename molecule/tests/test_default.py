@@ -5,8 +5,10 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
+
 def get_java_version():
     return os.getenv('JAVA_VERSION', '11')
+
 
 @pytest.fixture(scope='module')
 def test_vars(host):
@@ -52,9 +54,9 @@ def test_vars(host):
     elif os == 'Mac OS X':
         java_installer_ext = '.dmg'
         if int(java_version_parts[0]) > 8:
-          platform = 'osx'
+            platform = 'osx'
         else:
-          platform = 'macosx'
+            platform = 'macosx'
     elif os == 'Windows':
         java_installer_ext = '.exe'
         platform = 'windows'
@@ -74,31 +76,35 @@ def test_vars(host):
         )
 
     test_vars = {
-        'java_version'            : java_version,
-        'java_version_short'      : java_version_short,
-        'java_installer_filename' : java_installer_filename,
-        'temp_dir'                : temp_dir,
-        'path_separator'          : path_separator
+        'java_version': java_version,
+        'java_version_short': java_version_short,
+        'java_installer_filename': java_installer_filename,
+        'temp_dir': temp_dir,
+        'path_separator': path_separator
     }
     return test_vars
 
 
 def test_java_version_fact(host, test_vars):
-    f = host.file(test_vars['temp_dir'] + test_vars['path_separator'] + 'vars_log.txt')
+    f = host.file(test_vars['temp_dir'] +
+                  test_vars['path_separator'] + 'vars_log.txt')
     java_version_string = 'java_version=' + test_vars['java_version']
     assert f.exists
     assert f.contains(java_version_string)
 
 
 def test_java_installer_filename_fact(host, test_vars):
-    f = host.file(test_vars['temp_dir'] + test_vars['path_separator'] + 'vars_log.txt')
-    java_installer_filename_string = 'java_installer_filename=' + test_vars['java_installer_filename']
+    f = host.file(test_vars['temp_dir'] +
+                  test_vars['path_separator'] + 'vars_log.txt')
+    java_installer_filename_string = 'java_installer_filename=' + \
+        test_vars['java_installer_filename']
     assert f.exists
     assert f.contains(java_installer_filename_string)
 
 
 def test_installer_exists(host, test_vars):
-    installer_filepath = test_vars['temp_dir'] + test_vars['path_separator'] + test_vars['java_installer_filename']
+    installer_filepath = test_vars['temp_dir'] + \
+        test_vars['path_separator'] + test_vars['java_installer_filename']
     f = host.file(installer_filepath)
     assert f.exists
 
@@ -106,3 +112,9 @@ def test_installer_exists(host, test_vars):
 def test_java_version_installed(host, test_vars):
     result = host.run("java -version")
     assert test_vars['java_version'] in result.stderr
+
+
+def test_java_crypto_enabled(host):
+    result = host.run(
+        "jrunscript -e 'exit (javax.crypto.Cipher.getMaxAllowedKeyLength(\"RC5\") >= 256);'")
+    assert result.rc == 1

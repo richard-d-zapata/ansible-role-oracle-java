@@ -60,7 +60,7 @@ scenario:
     - syntax
     - create
     - converge
-    # - verify
+    # - verify  # Haven't been able to get verfication to work with Windows
     - destroy
 verifier:
   name: testinfra

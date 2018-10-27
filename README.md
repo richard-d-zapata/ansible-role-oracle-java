@@ -49,12 +49,94 @@ tests with vagrant:
 
 None
 
-## Example Playbook
+## Role Use
 
-    - name: Install Oracle JDK
-      hosts: servers
-      roles:
-         - { role: kaos2oak.oracle-java }
+Use of this role consists of the following:
+
+* Create a playbook
+* Obtain and have the desired installer available locally on the ansible
+  controller
+* Provide the location of the installer on the controller as an environment
+  variable, in the playbook or as an extra-var
+* Provide the version of Java (must match the installer) as an environment
+  variable, in the playbook or as an extra-var
+* Run the playbook
+
+### Example Playbooks
+
+``` yaml
+- name: Install Oracle JDK
+    hosts: servers
+    roles:
+        - { role: kaos2oak.oracle-java }
+```
+
+``` yaml
+- name: Install Oracle JDK 8u192
+    hosts: servers
+    vars:
+        java_version: 1.8.0_192
+    roles:
+        - { role: kaos2oak.oracle-java }
+```
+
+``` yaml
+- name: Install Oracle JDK 7u80 with JCE
+    hosts: servers
+    vars:
+        java_version: 1.7.0_80
+    roles:
+        - { role: kaos2oak.oracle-java }
+```
+
+### Example Installer Locations
+
+If you really want it to be quick and easy:
+
+    export JAVA_INSTALLERS_PATH="$HOME/Downloads"
+
+Or, you could always move the installers to the default location after
+downloading them:
+
+    /Users/Shared/Installers/Java
+
+If you like to keep things neat and organized, you might organize the installers
+into folders, create a file named something like `setup` in a directory named
+`my` in this repository (the `my` directory is part of the .gitignore, so it
+will not be part of any commit) and then `source` the file:
+
+``` shell
+# File: setup
+export JAVA_MACOS_INSTALLERS_PATH="$HOME/Installers/Mac/Java"
+export JAVA_LINUX_INSTALLERS_PATH="$HOME/Installers/Linux/Java"
+export JAVA_WINDOWS_INSTALLERS_PATH="$HOME/Installers/Windows/Java"
+```
+
+    source my/setup
+
+### Example Java Version
+
+Since the Java version may be something that you want to change on the fly,
+you probably don't want to include it in the `setup` file, but you can always
+provide it on the command line before the ansible-playbook run:
+
+    export JAVA_VERSION=1.8.0_192
+
+Or, provide as part of the ansible-playbook run (see below).
+
+### Example Playbook Runs
+
+Assuming you have created a playbook named `k2o-java.yml`:
+
+    ansible-playbook k2o-java.yml
+
+    JAVA_VERSION=1.8.0_152 ansible-playbook k2o-java.yml
+
+    ansible-playbook k2o-java.yml -e "java_version=1.8.0_152"
+
+If the playbook itself contains the version of Java:
+
+    ansible-playbook k2o-java-7u80.yml
 
 ## Role Testing
 

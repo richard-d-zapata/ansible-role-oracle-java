@@ -1,0 +1,15 @@
+---
+- name: Verify Java cryptography unlimited strength status (Windows)
+  win_command: "\"{{ java_destination_path }}\\{{ java_dir_string }}\\bin\\jrunscript.exe\" -e \"exit (println(javax.crypto.Cipher.getMaxAllowedKeyLength('AES') >= 256));\""
+  register: crypto_enabled
+
+- name: Java Cryptography unlimited strength status (Windows)
+  vars:
+    msg: |-
+      {% if 'true' in crypto_enabled.stdout %}
+      Java Cryptography unlimited strength is enabled
+      {% else %}
+      Java Cryptography unlimited strength is NOT enabled
+      {% endif %}
+  debug:
+    msg: "{{ msg.split('\r\n')[:-1] }}"

@@ -1,0 +1,16 @@
+---
+- name: Ensure java_installers_path_on_target exists (Windows)
+  win_file:
+    path: "{{ java_installers_path_on_target }}"
+    state: directory
+
+- name: Copy JCE archive to target (Windows)
+  win_copy:
+    src: "{{ java_installers_path_on_controller }}/{{ jce_archive_name }}"
+    dest: "{{ java_installers_path_on_target }}\\{{ jce_archive_name }}"
+
+- name: Check JCE archive on target (Windows)
+  win_stat:
+    path: "\"{{ java_installers_path_on_target }}\\{{ jce_archive_name }}\""
+  register: archive
+  failed_when: archive.stat.exists != true

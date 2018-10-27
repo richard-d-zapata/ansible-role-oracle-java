@@ -1,0 +1,50 @@
+---
+- name: Set os_architecture
+  set_fact:
+    os_architecture: |-
+      {%- if ansible_os_family == "Windows" %}
+      Windows
+      {%- else %}
+      Unix
+      {%- endif %}
+
+- name: Define OS architecture-specific variables
+  include_vars: "{{ os_architecture }}/vars.yml"
+  when: os_architecture == 'Unix'
+
+- name: Define OS family-specific variables
+  include_vars: "{{ ansible_os_family }}/vars.yml"
+
+# code from https://www.samdarwin.com/ansible-default-vars/
+- name: Set facts based on defaults
+  set_fact:
+    "{{ item[8:] }}": "{{  vars[item[8:]] | default(vars[item]) }}"
+  when: item is match("^default_")
+  with_items:
+    "{{ vars }}"
+
+- name: Define values based on environment variables
+  include_tasks: env_vars.yml
+
+- name: Set java_version_style
+  set_fact:
+    java_version_style: |-
+      {%- if (java_version|string).split('.')[0]|int > 8 %}
+      modern
+      {%- else %}
+      legacy
+      {%- endif %}
+
+- name: Define java_version and java_crypto based on style
+  include_tasks: "java_version_and_crypto/{{ java_version_style }}.yml"
+
+- name: Define java_installer_name_parts
+  include_tasks: "{{ ansible_os_family }}/java_installer_name_parts.yml"
+
+- name: Set java_installer_filename
+  set_fact:
+    java_installer_filename: "{{ java_type_string }}-{{ java_version_short_string }}{{ java_installer_suffix }}{{ java_installer_ext }}"
+
+- name: Define java_crypto variables
+  include_tasks: "java_crypto/jce_{{ java_version_parts['major'] }}.yml"
+  when: java_crypto_style == 'legacy'

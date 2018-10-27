@@ -1,0 +1,5 @@
+---
+- name: Ensure unzip utility exists
+  package:
+    name: unzip
+    state: present
