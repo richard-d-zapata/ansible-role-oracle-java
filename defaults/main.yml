@@ -1,6 +1,16 @@
 ---
-java_version: 11
+# Additional os-specific default values are found in the 'vars' section.
+# The processing of these values to function more like defaults is done
+# as described at https://www.samdarwin.com/ansible-default-vars/
+
+
+# Until a method can be devised to programmatically determine the download path,
+# the version and url path will need to be specified here for the latest Java
+java_version: 11.0.1
+java_installer_url_path: http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7
+java_installer_url_headers:
+  Cookie: oraclelicense=accept-securebackup-cookie
 
 java_type: jdk
-
 java_installers_path_on_controller: /Users/Shared/Installers
+oracle_java_baseline_url: http://javadl-esd-secure.oracle.com/update/baseline.version

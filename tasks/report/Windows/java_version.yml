@@ -9,3 +9,12 @@
       {{ java_version_result.stderr | trim }}
   debug:
     msg: "{{ msg.split('\r\n')[:-1] }}"
+
+- name: Warning if not using latest Java version
+  vars:
+    msg: |
+      WARNING: This is not the latest Java version available
+      Latest version: {{ latest_java_version }}
+  debug:
+    msg: "{{ msg.split('\r\n')[:-1] }}"
+  when: latest_java_version != java_version

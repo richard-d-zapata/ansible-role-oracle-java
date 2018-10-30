@@ -6,10 +6,24 @@
     mode: 0777
   become: true
 
+- name: Check for installer in java_installers_path_on_controller (Unix)
+  stat:
+    path: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
+  register: java_installer_on_controller
+  delegate_to: 127.0.0.1
+
 - name: Copy installer to target (Unix)
   copy:
     src: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
     dest: "{{ java_installers_path_on_target }}"
+  when: java_installer_on_controller.stat.exists == true
+
+- name: Attempt to download installer from Oracle (Unix)
+  get_url:
+    url: "{{ java_installer_url_path }}/{{ java_installer_filename }}"
+    dest: "{{ java_installers_path_on_target }}"
+    headers: "{{ java_installer_url_headers }}"
+  when: java_installer_on_controller.stat.exists == false
 
 - name: Check for installer (Unix)
   stat:

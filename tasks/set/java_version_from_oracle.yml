@@ -1,0 +1,18 @@
+---
+- name: Get java version list from Oracle
+  uri:
+    url: "{{ oracle_java_baseline_url }}"
+    return_content: true
+  register: baseline_text
+  delegate_to: 127.0.0.1
+
+- name: Version list from Oracle
+  debug:
+    msg: "{{ baseline_text.content }}"
+    verbosity: 2
+
+- name: Set latest_java_version to latest modern Java available from Oracle
+  set_fact:
+    latest_java_version: "{{ baseline_text.content | regex_search(regexp,'\\1') | first }}"
+  vars:
+    regexp: '(^\d+\.*\d*\.*\d*)\s+'

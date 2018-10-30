@@ -1,3 +1,7 @@
 ---
+- name: Set java_security_path
+  set_fact:
+    java_security_path: "{{ java_path }}{{ java_security_subpath }}"
+
 - name: Ensure cryptography is enabled
   include_tasks: "{{ java_crypto_style }}/unlimited.yml"

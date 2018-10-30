@@ -8,9 +8,23 @@ minor versions.
 
 ## Requirements
 
-Currently, this role requires you to download the Java installer from Oracle
-and have it placed locally on your "controller" (the machine from which you
-are running the Ansible playbook).
+This role is designed to be used with a Java installer downloaded from Oracle
+and placed locally on your "controller" (the machine from which you are running
+the Ansible playbook). Oracle has made it difficult to download any installers
+that are not the latest version available. If you want to use this role and
+have the installer automatically downloaded from Oracle (which will only work
+with latest installers), you may need to do the following (using information
+from the Oracle website for reference) if the `main.yml` defaults file
+doesn't already contain the latest version information:
+
+* Provide the latest Java version
+* Provide the download path for the latest Java installers
+
+To do so, navigate to the Oracle [Java SE](https://www.oracle.com/technetwork/java/javase/overview/index.html)
+download page, go to the latest version page, accept the license agreement and
+copy the link for one of the installer downloads. You can now use this link
+minus the name of the installer as the `java_installer_url_path` in the playbook
+or `JAVA_INSTALLER_URL_PATH` environment variable.
 
 If you are running Ansible 2.4 or above on macOS High Sierra or above, you may
 want to learn more about an issue with "changes made in High Sierra that are
@@ -30,20 +44,22 @@ tests with vagrant:
 
 ## Environment Variables
 
-| Option                         | Default | Example                                 |
-| :----------------------------- | :------ | :-------------------------------------- |
-| `JAVA_LINUX_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/Linux/Java`   |
-| `JAVA_MACOS_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/macOS/Java`   |
-| `JAVA_WINDOWS_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java` |
-| `JAVA_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`         |
-| `JAVA_VERSION`                 | '11'    | `10.0.2` or `1.8.0_192`                 |
+| Option                         | Default | Example                                                                                  |
+| :----------------------------- | :------ | :--------------------------------------------------------------------------------------- |
+| `JAVA_LINUX_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/Linux/Java`                                                    |
+| `JAVA_MACOS_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/macOS/Java`                                                    |
+| `JAVA_WINDOWS_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java`                                                  |
+| `JAVA_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`                                                          |
+| `JAVA_VERSION`                 | none    | `10.0.2` or `1.8.0_192`                                                                  |
+| `JAVA_INSTALLER_URL_PATH`      | none    | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
 
 ## Role Variables
 
-| Option                 | Default                    | Example                         |
-| :--------------------- | :------------------------- | :------------------------------ |
-| `java_version`         | `11`                       | `10.0.2` or `1.8.0_192`         |
-| `java_installers_path` | `/Users/Shared/Installers` | `/Users/Shared/Installers/Java` |
+| Option                    | Default                    | Example                                                                                  |
+| :------------------------ | :------------------------- | :--------------------------------------------------------------------------------------- |
+| `java_version`            | `11.0.1`                   | `10.0.2` or `1.8.0_192`                                                                  |
+| `java_installers_path`    | `/Users/Shared/Installers` | `/Users/Shared/Installers/Java`                                                          |
+| `java_installer_url_path` | current URL                | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
 
 ## Dependencies
 

@@ -1,17 +1,17 @@
 ---
-- name: Select java_version (Debian)
+- name: Select java_version (RedHat)
   alternatives:
     name: "{{ item }}"
     link: "/usr/bin/{{ item }}"
-    path: "{{ java_destination_path }}/{{ java_dir_string }}/bin/{{ item }}"
+    path: "{{ java_path }}/bin/{{ item }}"
     priority: 100
   become: true
   with_items: "{{ java_executables }}"
 
-- name: Set JAVA_HOME (Debian)
+- name: Set JAVA_HOME (RedHat)
   lineinfile:
     dest: "{{ java_environment_file_path }}"
     state: present
     regexp: '^JAVA_HOME'
-    line: "JAVA_HOME={{ java_destination_path }}/{{ java_dir_string }}"
+    line: "JAVA_HOME={{ java_path }}"
   become: true

@@ -39,6 +39,6 @@
   set_fact:
     java_crypto_style: modern
 
-- name: Set java_security_path (modern)
+- name: Set java_security_subpath (modern)
   set_fact:
-    java_security_path: "{{ java_destination_path }}/{{ java_dir_string }}{{ default_java_modern_security_subpath }}"
+    java_security_subpath: "{{ java_modern_security_subpath }}"

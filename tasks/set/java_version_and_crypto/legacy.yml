@@ -40,6 +40,6 @@
       modern
       {%- endif %}
 
-- name: Set java_security_path (legacy)
+- name: Set java_security_subpath
   set_fact:
-    java_security_path: "{{ java_destination_path }}/{{ java_dir_string }}{{ default_java_legacy_security_subpath }}"
+    java_security_subpath: "{{ java_legacy_security_subpath }}"

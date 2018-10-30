@@ -16,7 +16,7 @@
   include_vars: "{{ ansible_os_family }}/vars.yml"
 
 # code from https://www.samdarwin.com/ansible-default-vars/
-- name: Set facts based on defaults
+- name: Set facts using any 'default_XXX' vars
   set_fact:
     "{{ item[8:] }}": "{{  vars[item[8:]] | default(vars[item]) }}"
   when: item is match("^default_")
@@ -25,6 +25,9 @@
 
 - name: Define values based on environment variables
   include_tasks: env_vars.yml
+
+- name: Define latest_java_version using latest available from Oracle
+  include_tasks: java_version_from_oracle.yml
 
 - name: Set java_version_style
   set_fact:

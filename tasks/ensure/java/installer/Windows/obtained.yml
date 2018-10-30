@@ -4,10 +4,24 @@
     path: "{{ java_installers_path_on_target }}"
     state: directory
 
+- name: Check for installer in java_installers_path_on_controller (Unix)
+  stat:
+    path: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
+  register: java_installer_on_controller
+  delegate_to: 127.0.0.1
+
 - name: Copy installer to target (Windows)
   win_copy:
     src: "{{ java_installers_path_on_controller }}/{{ java_installer_filename }}"
     dest: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
+  when: java_installer_on_controller.stat.exists == true
+
+- name: Attempt to download installer from Oracle (Windows)
+  win_get_url:
+    url: "{{ java_installer_url_path }}/{{ java_installer_filename }}"
+    dest: "{{ java_installers_path_on_target }}"
+    headers: "{{ java_installer_url_headers }}"
+  when: java_installer_on_controller.stat.exists == false
 
 - name: Check for installer (Windows)
   win_stat:

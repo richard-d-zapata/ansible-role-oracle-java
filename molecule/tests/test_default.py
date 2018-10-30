@@ -7,7 +7,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def get_java_version():
-    return os.getenv('JAVA_VERSION', '11')
+    return os.getenv('JAVA_VERSION', '11.0.1')
 
 
 @pytest.fixture(scope='module')
