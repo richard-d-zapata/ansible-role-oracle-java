@@ -1,0 +1,3 @@
+---
+- name: Ensure JCE archive has been obtained
+  include_tasks: "{{ os_architecture }}/obtained.yml"

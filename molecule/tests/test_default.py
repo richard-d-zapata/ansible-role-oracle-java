@@ -45,10 +45,10 @@ def test_vars(host):
     temp_dir = '/tmp'
 
     os = host.system_info.distribution
-    if os.lower() == 'ubuntu':
+    if os.lower() in ['ubuntu', 'debian']:
         java_installer_ext = '.tar.gz'
         platform = 'linux'
-    elif os.lower() == 'centos':
+    elif os.lower() in ['centos', 'rhel']:
         java_installer_ext = '.rpm'
         platform = 'linux'
     elif os == 'Mac OS X':
@@ -63,7 +63,7 @@ def test_vars(host):
         path_separator = '\\'
         temp_dir = 'C:\\Program Files\\Ansible\\temp'
     else:
-        java_installer_ext = os
+        java_installer_ext = 'need-ext-for-' + os
         platform = os
 
     if int(java_version_parts[0]) > 8:

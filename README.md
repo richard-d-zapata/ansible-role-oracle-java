@@ -63,7 +63,9 @@ tests with vagrant:
 
 ## Dependencies
 
-None
+If you wish to install an older version of Java with the JCE on RedHat, you
+will need to make sure RedHat is registered with a repository where `unzip`
+is available for installation.
 
 ## Role Use
 

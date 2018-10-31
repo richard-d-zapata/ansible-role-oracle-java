@@ -1,9 +1,9 @@
 ---
 - name: Ensure JCE pre-requisites exist
-  include_tasks: "jce/pre-reqs/{{ ansible_os_family }}/exist.yml"
+  include_tasks: "jce/pre-reqs/exist.yml"
 
 - name: Ensure JCE archive has been obtained
-  include_tasks: "jce/archive/{{ os_architecture }}/obtained.yml"
+  include_tasks: "jce/archive/obtained.yml"
 
 - name: Ensure JCE files are installed
-  include_tasks: "jce/{{ os_architecture }}/installed.yml"
+  include_tasks: "jce/files/installed.yml"
