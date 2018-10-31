@@ -1,14 +1,4 @@
 ---
-- name: Set java_installer_suffix (legacy Linux)
-  set_fact:
-    java_installer_suffix: '-linux-x64'
-  when: java_version_style == 'legacy'
-
-- name: Set java_installer_suffix (modern Linux)
-  set_fact:
-    java_installer_suffix: '_linux-x64_bin'
-  when: java_version_style == 'modern'
-
 - name: Set java_installer_ext (Debian)
   set_fact:
     java_installer_ext: '.tar.gz'

@@ -1,3 +1,4 @@
 ---
 - name: Ensure JCE pre-requisites exist
   include_tasks: "{{ ansible_os_family }}/exist.yml"
+  when: ansible_os_family in ['Debian', 'RedHat']

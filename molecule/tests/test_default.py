@@ -10,6 +10,49 @@ def get_java_version():
     return os.getenv('JAVA_VERSION', '11.0.1')
 
 
+def get_path_separator(host):
+    os = host.system_info.distribution
+    if os == 'Windows':
+        return '\\'
+    else:
+        return '/'
+
+
+def get_temp_dir(host):
+    os = host.system_info.distribution
+    if os == 'Windows':
+        return 'C:\\Program Files\\Ansible\\temp'
+    else:
+        return '/tmp'
+
+
+def get_platform(host, java_version_feature):
+    os = host.system_info.distribution
+    if os == 'Windows':
+        return 'windows'
+    elif os == 'Mac OS X':
+        if int(java_version_feature) > 8:
+            return 'osx'
+        else:
+            return 'macosx'
+    else:
+        return 'linux'
+
+
+def get_java_installer_ext(host):
+    os = host.system_info.distribution
+    if os.lower() in ['ubuntu', 'debian']:
+        return '.tar.gz'
+    elif os.lower() in ['centos', 'rhel']:
+        return '.rpm'
+    elif os == 'Mac OS X':
+        return '.dmg'
+    elif os == 'Windows':
+        return '.exe'
+    else:
+        return 'UNKNOWN-EXT-' + os
+
+
 @pytest.fixture(scope='module')
 def test_vars(host):
     java_version = get_java_version()
@@ -41,30 +84,11 @@ def test_vars(host):
         java_version_major = java_version_parts[1]
         java_version_minor = java_version_parts[2].split('_')[1]
         java_version_short = java_version_major + 'u' + java_version_minor
-    path_separator = '/'
-    temp_dir = '/tmp'
 
-    os = host.system_info.distribution
-    if os.lower() in ['ubuntu', 'debian']:
-        java_installer_ext = '.tar.gz'
-        platform = 'linux'
-    elif os.lower() in ['centos', 'rhel']:
-        java_installer_ext = '.rpm'
-        platform = 'linux'
-    elif os == 'Mac OS X':
-        java_installer_ext = '.dmg'
-        if int(java_version_parts[0]) > 8:
-            platform = 'osx'
-        else:
-            platform = 'macosx'
-    elif os == 'Windows':
-        java_installer_ext = '.exe'
-        platform = 'windows'
-        path_separator = '\\'
-        temp_dir = 'C:\\Program Files\\Ansible\\temp'
-    else:
-        java_installer_ext = 'need-ext-for-' + os
-        platform = os
+    java_installer_ext = get_java_installer_ext(host)
+    platform = get_platform(host, java_version_parts[0])
+    path_separator = get_path_separator(host)
+    temp_dir = get_temp_dir(host)
 
     if int(java_version_parts[0]) > 8:
         java_installer_filename = (

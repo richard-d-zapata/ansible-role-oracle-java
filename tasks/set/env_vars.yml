@@ -1,6 +1,11 @@
 ---
 - name: Define OS family-specific environment variables
   include_tasks: "{{ ansible_os_family }}/env_vars.yml"
+  when: ansible_os_family in ['Windows', 'Darwin']
+
+- name: Define Linux environment variables
+  include_tasks: Linux/env_vars.yml
+  when: ansible_os_family not in ['Windows', 'Darwin']
 
 - name: Set java_version from environment variable
   set_fact:

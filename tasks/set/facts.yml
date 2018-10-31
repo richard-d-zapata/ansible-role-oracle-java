@@ -1,27 +1,6 @@
 ---
-- name: Set os_architecture
-  set_fact:
-    os_architecture: |-
-      {%- if ansible_os_family == "Windows" %}
-      Windows
-      {%- else %}
-      Unix
-      {%- endif %}
-
-- name: Define OS architecture-specific variables
-  include_vars: "{{ os_architecture }}/vars.yml"
-  when: os_architecture == 'Unix'
-
-- name: Define OS family-specific variables
-  include_vars: "{{ ansible_os_family }}/vars.yml"
-
-# code from https://www.samdarwin.com/ansible-default-vars/
-- name: Set facts using any 'default_XXX' vars
-  set_fact:
-    "{{ item[8:] }}": "{{  vars[item[8:]] | default(vars[item]) }}"
-  when: item is match("^default_")
-  with_items:
-    "{{ vars }}"
+- name: Define defaults & variables
+  include_tasks: default_vars.yml
 
 - name: Define values based on environment variables
   include_tasks: env_vars.yml
@@ -41,7 +20,11 @@
 - name: Define java_version and java_crypto based on style
   include_tasks: "java_version_and_crypto/{{ java_version_style }}.yml"
 
-- name: Define java_installer_name_parts
+- name: Define Linux java_installer_name_parts
+  include_tasks: "Linux/java_installer_name_parts.yml"
+  when: ansible_os_family not in ['Windows', 'Darwin']
+
+- name: Define OS family specific java_installer_name_parts
   include_tasks: "{{ ansible_os_family }}/java_installer_name_parts.yml"
 
 - name: Set java_installer_filename
