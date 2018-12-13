@@ -2,4 +2,3 @@
 - name: Ensure pre-requisites exist
   include_tasks: "{{ ansible_os_family }}/exist.yml"
   when: ansible_os_family in ['RedHat']
-  # with_first_found: ["{{ ansible_os_family }}", "null"]

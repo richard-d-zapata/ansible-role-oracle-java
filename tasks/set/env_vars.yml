@@ -23,10 +23,12 @@
 
 - name: Set general java_installers_path
   set_fact:
-    java_installers_path: "{{ lookup('env', 'JAVA_INSTALLERS_PATH' ) }}"
+    java_installers_path: "{{ lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' ) }}"
   when: |-
     java_installers_path is not defined and
-    (lookup('env', 'JAVA_INSTALLERS_PATH' ) is defined and lookup('env', 'JAVA_INSTALLERS_PATH' ) != '')
+    ( lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' ) is defined and
+      lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' ) != ''
+    )
 
 - name: Set java_installers_path_on_controller
   set_fact:

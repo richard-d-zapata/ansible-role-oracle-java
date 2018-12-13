@@ -1,5 +1,7 @@
 ---
 - name: Set java_installers_path (macOS)
   set_fact:
-    java_installers_path: "{{ lookup('env', 'JAVA_MACOS_INSTALLERS_PATH' ) }}"
-  when: lookup('env', 'JAVA_MACOS_INSTALLERS_PATH' ) is defined and lookup('env', 'JAVA_MACOS_INSTALLERS_PATH' ) != ''
+    java_installers_path: "{{ lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) }}"
+  when: |-
+    lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) is defined and
+    lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) != ''

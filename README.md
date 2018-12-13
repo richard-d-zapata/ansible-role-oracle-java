@@ -44,14 +44,14 @@ tests with vagrant:
 
 ## Environment Variables
 
-| Option                         | Default | Example                                                                                  |
-| :----------------------------- | :------ | :--------------------------------------------------------------------------------------- |
-| `JAVA_LINUX_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/Linux/Java`                                                    |
-| `JAVA_MACOS_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/macOS/Java`                                                    |
-| `JAVA_WINDOWS_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java`                                                  |
-| `JAVA_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`                                                          |
-| `JAVA_VERSION`                 | none    | `10.0.2` or `1.8.0_192`                                                                  |
-| `JAVA_INSTALLER_URL_PATH`      | none    | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
+| Option                               | Default | Example                                                                                  |
+| :----------------------------------- | :------ | :--------------------------------------------------------------------------------------- |
+| `JAVA_LINUX_LOCAL_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/Linux/Java`                                                    |
+| `JAVA_MAC_LOCAL_INSTALLERS_PATH`     | none    | `/Users/Shared/Installers/macOS/Java`                                                    |
+| `JAVA_WINDOWS_LOCAL_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java`                                                  |
+| `JAVA_LOCAL_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`                                                          |
+| `JAVA_VERSION`                       | none    | `10.0.2` or `1.8.0_192`                                                                  |
+| `JAVA_INSTALLER_URL_PATH`            | none    | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
 
 ## Role Variables
 
@@ -111,7 +111,7 @@ Use of this role consists of the following:
 
 If you really want it to be quick and easy:
 
-    export JAVA_INSTALLERS_PATH="$HOME/Downloads"
+    export JAVA_LOCAL_INSTALLERS_PATH="$HOME/Downloads"
 
 Or, you could always move the installers to the default location after
 downloading them:
@@ -125,9 +125,9 @@ will not be part of any commit) and then `source` the file:
 
 ``` shell
 # File: setup
-export JAVA_MACOS_INSTALLERS_PATH="$HOME/Installers/Mac/Java"
-export JAVA_LINUX_INSTALLERS_PATH="$HOME/Installers/Linux/Java"
-export JAVA_WINDOWS_INSTALLERS_PATH="$HOME/Installers/Windows/Java"
+export JAVA_MAC_LOCAL_INSTALLERS_PATH="$HOME/Installers/Mac/Java"
+export JAVA_LINUX_LOCAL_INSTALLERS_PATH="$HOME/Installers/Linux/Java"
+export JAVA_WINDOWS_LOCAL_INSTALLERS_PATH="$HOME/Installers/Windows/Java"
 ```
 
     source my/setup

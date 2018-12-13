@@ -1,6 +1,6 @@
 ---
-- name: "Verify Java version"
+- name: Verify Java version
   include_tasks: "{{ os_architecture }}/java_version.yml"
 
-- name: "Verify Java cryptography"
+- name: Verify Java cryptography
   include_tasks: "{{ os_architecture }}/java_crypto.yml"

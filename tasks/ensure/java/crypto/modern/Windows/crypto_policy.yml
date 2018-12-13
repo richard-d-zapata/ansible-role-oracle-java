@@ -4,4 +4,3 @@
     path: "{{ java_security_path }}\\java.security"
     regexp: '^\s*#*\s*crypto.policy=.*$'
     line: 'crypto.policy=unlimited'
-  become: true

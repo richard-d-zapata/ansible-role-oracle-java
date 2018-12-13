@@ -12,7 +12,7 @@
     dest: "{{ java_environment_file_path }}"
     state: present
     regexp: '^export\\s+JAVA_HOME'
-    line: "export JAVA_HOME=$(/usr/libexec/java_home -v {{ java_dir_string }})"
+    line: "export JAVA_HOME=$(/usr/libexec/java_home -v {{ java_version_string }})"
 
 - name: Source user profile (macOS)
   shell: "source {{ java_environment_file_path }}"
