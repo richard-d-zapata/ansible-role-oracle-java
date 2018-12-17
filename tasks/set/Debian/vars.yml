@@ -1,0 +1,4 @@
+---
+- name: Set java_destination_subpath (Debian)
+  set_fact:
+    java_destination_subpath: "jdk{{ java_version_string }}"

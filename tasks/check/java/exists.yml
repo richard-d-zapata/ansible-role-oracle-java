@@ -1,0 +1,8 @@
+---
+- name: Check for OS architecture specific Oracle Java installation
+  include_tasks: "{{ os_architecture }}/exists.yml"
+
+- name: Set java_needs_to_be_installed
+  set_fact:
+    java_needs_to_be_installed: true
+  when: java_installed.stat.exists == false

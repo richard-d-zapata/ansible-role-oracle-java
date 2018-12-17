@@ -1,7 +1,6 @@
----
 - name: Get java version list from Oracle
   uri:
-    url: "{{ oracle_java_baseline_url }}"
+    url: "{{ java_oracle_baseline_url }}"
     return_content: true
   register: baseline_text
   delegate_to: 127.0.0.1

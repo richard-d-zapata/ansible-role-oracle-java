@@ -1,5 +1,5 @@
 ---
-default_java_destination_path: /usr/lib/jvm
+default_java_destination_parent_path: /usr/lib/jvm
 default_java_environment_file_path: /etc/environment
 default_java_legacy_security_subpath: /jre/lib/security
 default_java_modern_security_subpath: /conf/security

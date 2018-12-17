@@ -1,0 +1,5 @@
+---
+- name: Check for existing Oracle Java installation (Windows)
+  win_stat:
+    path: "{{ java_destination_parent_path }}\\{{ java_destination_subpath }}"
+  register: java_installed

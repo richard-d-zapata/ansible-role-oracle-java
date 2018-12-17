@@ -3,5 +3,5 @@
   win_package:
     path: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
     arguments: /s ADDLOCAL="ToolsFeature,SourceFeature,PublicjreFeature"
-    creates_path: "{{ java_destination_path }}\\{{ java_dir_string }}"
+    creates_path: "{{ java_destination_parent_path }}\\{{ java_dir_string }}"
     state: present
