@@ -1,5 +1,5 @@
 ---
-- name: Ensure unzip utility exists
+- name: Ensure unzip utility exists (Debian)
   package:
     pkg: unzip
     state: present

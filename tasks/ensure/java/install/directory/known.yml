@@ -1,5 +1,5 @@
 ---
-- name: Get directories in java_destination_parent_path
+- name: Get OS architecture specific directories in java_destination_parent_path
   include_tasks: "{{ os_architecture }}/paths.yml"
 
 - name: Set java_path to most recent directory in java_destination_parent_path

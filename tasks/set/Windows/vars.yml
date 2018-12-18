@@ -1,4 +1,4 @@
 ---
-- name: Set java_destination_subpath (RedHat)
+- name: Set java_destination_subpath (Windows)
   set_fact:
     java_destination_subpath: "jdk{{ java_version_string }}"

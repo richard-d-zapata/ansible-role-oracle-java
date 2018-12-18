@@ -1,11 +1,11 @@
 ---
-- name: Mount disk image containing installer
+- name: Mount disk image containing installer (Darwin)
   shell: "hdiutil attach -noautoopen -noverify '{{ java_installers_path_on_target }}/{{ java_installer_filename }}' | grep /Volumes | cut -f 3"
   register: mount_dmg_results
 
-- name: Install Java
+- name: Install Java (Darwin)
   become: true
   command: "installer -pkg \"{{ mount_dmg_results.stdout }}/{{ java_package_filename }}\" -target /"
 
-- name: Unmount disk image
+- name: Unmount disk image (Darwin)
   command: "hdiutil detach \"{{ mount_dmg_results.stdout }}\""

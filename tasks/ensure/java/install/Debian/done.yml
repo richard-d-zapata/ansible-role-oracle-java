@@ -1,5 +1,5 @@
 ---
-- name: Create java_destination_parent_path
+- name: Create java_destination_parent_path (Debian)
   file:
     path: "{{ java_destination_parent_path }}"
     state: directory

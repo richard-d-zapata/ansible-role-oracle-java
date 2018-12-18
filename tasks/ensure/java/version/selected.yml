@@ -1,2 +1,2 @@
-- name: Ensure Java version has been selected
+- name: Ensure OS family specific Java version has been selected
   include_tasks: "{{ ansible_facts.os_family }}/selected.yml"

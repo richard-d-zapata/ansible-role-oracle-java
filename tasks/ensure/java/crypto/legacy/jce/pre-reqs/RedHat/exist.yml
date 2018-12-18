@@ -1,5 +1,5 @@
 ---
-- name: Ensure unzip utility exists
+- name: Ensure unzip utility exists (RedHat)
   package:
     name: unzip
     state: present
