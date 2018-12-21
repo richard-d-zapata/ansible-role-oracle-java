@@ -1,10 +1,24 @@
-# Oracle Java
+# Kaos2oak Oracle Java
 
 Install Oracle Java (JDK)
 
 This role is designed to install Java JDK. The role should work with Java
 versions 7 and higher, but has not been extensively tested on all possible
-minor versions.
+major and minor versions.
+
+## Goal
+
+The initial goal for this role is to provide a method to provision macOS,
+Ubuntu, RedHat and Windows with Oracle Java using the same role, so that
+a single playbook may be used to provision all of these platforms for
+software testing.
+
+Important considerations before using this role:
+
+- no attempt to provide the security that would be necessary for a production
+  installation has been included
+- the role is designed to be able to specify particular versions to be
+  installed, rather than simply "the latest"
 
 ## Requirements
 
@@ -17,8 +31,8 @@ with latest installers), you may need to do the following (using information
 from the Oracle website for reference) if the `main.yml` defaults file
 doesn't already contain the latest version information:
 
-* Provide the latest Java version
-* Provide the download path for the latest Java installers
+- Provide the latest Java version
+- Provide the download path for the latest Java installers
 
 To do so, navigate to the Oracle [Java SE](https://www.oracle.com/technetwork/java/javase/overview/index.html)
 download page, go to the latest version page, accept the license agreement and
@@ -37,12 +51,20 @@ Because of the above issue, you may want to include this line in your
 
     ENV["VAGRANT_OLD_ENV_OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
-You may also need to run the following command prior to executing molecule
-tests with vagrant:
+Or, export this information before executing the role:
 
     export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+_Note: The provisioning of a Windows VM seems to be particularly sensitive to_
+_this._
+
 ## Environment Variables
+
+Variables that are particular to the environment from which you are running
+the playbook can be supplied as environment variables so that they can be
+"sourced" from a file in the environment.  This provides an easy way to
+supply different paths to resources if you are using the roles on different
+computers.
 
 | Option                               | Default | Example                                                                                  |
 | :----------------------------------- | :------ | :--------------------------------------------------------------------------------------- |
@@ -54,6 +76,10 @@ tests with vagrant:
 | `JAVA_INSTALLER_URL_PATH`            | none    | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
 
 ## Role Variables
+
+Variables that are targeted toward options to use during the execution of the
+roles are left to be specified as role variables and can be specified in the
+playbook itself or on the command line when running the playbook.
 
 | Option                    | Default                    | Example                                                                                  |
 | :------------------------ | :------------------------- | :--------------------------------------------------------------------------------------- |
@@ -71,20 +97,32 @@ is available for installation.
 
 Use of this role consists of the following:
 
-* Create a playbook
-* Obtain and have the desired installer available locally on the ansible
+- Create a playbook
+- Obtain and have the desired installer available locally on the ansible
   controller
-* Provide the location of the installer on the controller as an environment
+- Provide the location of the installer on the controller as an environment
   variable, in the playbook or as an extra-var
-* Provide the version of Java (must match the installer) as an environment
+- Provide the version of Java (must match the installer) as an environment
   variable, in the playbook or as an extra-var
-* Run the playbook
+- Run the playbook
 
 ### Example Playbooks
 
 ``` yaml
-- name: Install Oracle JDK
+- name: Install default Oracle JDK
     hosts: servers
+    roles:
+        - { role: kaos2oak.oracle-java }
+```
+
+_Note: See the `defaults.yml` file for the "default" Java version that will_
+_be installed by the above playbook._
+
+``` yaml
+- name: Install Oracle JDK 11.0.1
+    hosts: servers
+    vars:
+        java_version: '11.0.1'
     roles:
         - { role: kaos2oak.oracle-java }
 ```
@@ -93,7 +131,7 @@ Use of this role consists of the following:
 - name: Install Oracle JDK 8u192
     hosts: servers
     vars:
-        java_version: 1.8.0_192
+        java_version: '1.8.0_192'
     roles:
         - { role: kaos2oak.oracle-java }
 ```
@@ -102,7 +140,7 @@ Use of this role consists of the following:
 - name: Install Oracle JDK 7u80 with JCE
     hosts: servers
     vars:
-        java_version: 1.7.0_80
+        java_version: '1.7.0_80'
     roles:
         - { role: kaos2oak.oracle-java }
 ```
@@ -113,15 +151,16 @@ If you really want it to be quick and easy:
 
     export JAVA_LOCAL_INSTALLERS_PATH="$HOME/Downloads"
 
-Or, you could always move the installers to the default location after
-downloading them:
+Or, you could always move the installers to a more permanent default location
+after downloading them and then point to that location:
 
     /Users/Shared/Installers/Java
 
 If you like to keep things neat and organized, you might organize the installers
 into folders, create a file named something like `setup` in a directory named
-`my` in this repository (the `my` directory is part of the .gitignore, so it
-will not be part of any commit) and then `source` the file:
+`my` in this repository (most contents of the `my` directory are part of the
+.gitignore ignored files, so it will not be part of any commit) and then
+`source` the file:
 
 ``` shell
 # File: setup
@@ -140,7 +179,9 @@ provide it on the command line before the ansible-playbook run:
 
     export JAVA_VERSION=1.8.0_192
 
-Or, provide as part of the ansible-playbook run (see below).
+Or, provide it as an "extra-vars" role variable for the ansible-playbook run:
+
+    -e "java_version=11.0.1"
 
 ### Example Playbook Runs
 
@@ -152,7 +193,7 @@ Assuming you have created a playbook named `k2o-java.yml`:
 
     ansible-playbook k2o-java.yml -e "java_version=1.8.0_152"
 
-If the playbook itself contains the version of Java:
+If the playbook itself contains the version of Java, it might look like:
 
     ansible-playbook k2o-java-7u80.yml
 
@@ -162,6 +203,9 @@ If the playbook itself contains the version of Java:
 
 [Molecule](https://molecule.readthedocs.io/en/latest/) is being used for
 testing this role.
+
+_Note: Windows testing with Molecule is not actively supported, so these tests_
+_may not work._
 
 You will need to install molecule and python support modules before running
 the role tests:
@@ -182,7 +226,7 @@ The 'verifier' for Windows is disabled as I have not yet been able to get the
 testinfra verfication to work for Windows. If you have any experience or advice
 in this area, please let me know.
 
-### Java Versions
+### Java Versions in Molecule tests
 
 To run the molecule tests for a particular Java version, you will need to
 provide the `JAVA_VERSION` as an environment variable and ensure the installer
@@ -231,7 +275,7 @@ macOS 10.13, 10.12, 10.11 via vagrant:
 
 ### Windows Tests
 
-Window 2012r2 via vagrant:
+Window 2012r2 via vagrant (may not work):
 
     molecule test --scenario-name windows-vagrant
 
