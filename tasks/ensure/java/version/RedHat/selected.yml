@@ -6,7 +6,7 @@
     path: "{{ java_path }}/bin/{{ item }}"
     priority: 100
   become: true
-  with_items: "{{ java_executables }}"
+  loop: "{{ java_executables|flatten(levels=1) }}"
 
 - name: Set JAVA_HOME (RedHat)
   lineinfile:
