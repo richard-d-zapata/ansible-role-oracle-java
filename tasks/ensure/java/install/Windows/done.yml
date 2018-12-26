@@ -1,7 +1,11 @@
 ---
+- debug:
+    msg: "Java features: {{ java_feature_list }}"
+    verbosity: 2
+
 - name: Install Java (Windows)
   win_package:
     path: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
-    arguments: /s ADDLOCAL="ToolsFeature,SourceFeature,PublicjreFeature"
+    arguments: /s ADDLOCAL="{{ java_feature_list }}"
     creates_path: "{{ java_destination_parent_path }}\\{{ java_dir_string }}"
     state: present

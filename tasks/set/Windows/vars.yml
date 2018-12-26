@@ -2,3 +2,17 @@
 - name: Set java_destination_subpath (Windows)
   set_fact:
     java_destination_subpath: "jdk{{ java_version_string }}"
+
+- name: Set modern java_feature_list (Windows)
+  set_fact:
+    java_feature_list: 'ToolsFeature,SourceFeature'
+  when: |-
+    java_version_parts['major'] is not defined and
+    java_feature_list is not defined
+
+- name: Set legacy java_feature_list (Windows)
+  set_fact:
+    java_feature_list: 'ToolsFeature,SourceFeature,PublicjreFeature'
+  when: |-
+    java_version_parts['feature'] is not defined and
+    java_feature_list is not defined
