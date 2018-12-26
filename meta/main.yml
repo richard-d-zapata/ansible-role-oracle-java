@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: oracle-java
+  role_name: oracle_java
   author: kaos2oak
   description: Install Oracle Java
 
