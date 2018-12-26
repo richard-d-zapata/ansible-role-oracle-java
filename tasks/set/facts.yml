@@ -31,7 +31,8 @@
 
 - name: Set java_installer_filename
   set_fact:
-    java_installer_filename: "{{ java_type_string }}-{{ java_version_short_string }}{{ java_installer_suffix }}{{ java_installer_ext }}"
+    java_installer_filename: "{{ java_type_string }}-{{ java_version_short_string }}\
+      {{ java_installer_suffix }}{{ java_installer_ext }}"
 
 - name: Define java_crypto variables
   include_tasks: "java_crypto/jce_{{ java_version_parts['major'] }}.yml"

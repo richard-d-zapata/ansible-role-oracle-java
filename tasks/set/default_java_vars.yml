@@ -19,4 +19,4 @@
 - name: Set facts using any 'default_java_' vars
   set_fact:
     "{{ item[8:] }}": "{{  vars[item[8:]] | default(vars[item]) }}"
-  loop: "{{ vars | flatten(levels=1) | select('match', '^default_java_') | list}}"
+  loop: "{{ vars | flatten(levels=1) | select('match', '^default_java_') | list }}"
