@@ -7,7 +7,7 @@
 
 - name: Version list from Oracle
   debug:
-    msg: "{{ baseline_text.content }}"
+    var: baseline_text.content
     verbosity: 2
 
 - name: Set latest_java_version to latest modern Java available from Oracle

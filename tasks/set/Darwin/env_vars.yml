@@ -1,7 +1,14 @@
 ---
-- name: Set java_installers_path (Darwin)
+- name: Add Mac environment variables to java_local_installer_path_env_vars
   set_fact:
-    java_installers_path: "{{ lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) }}"
-  when: |-
-    lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) is defined and
-    lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) != ''
+    java_local_installer_path_env_vars: "{{ java_local_installer_path_env_vars }} + [ '{{ item }}' ]"
+  loop:
+    - 'MAC_LOCAL_INSTALLERS_PATH'
+    - 'JAVA_MAC_LOCAL_INSTALLERS_PATH'
+
+# - name: Set java_installers_path (Darwin)
+#   set_fact:
+#     java_installers_path: "{{ lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) }}"
+#   when: |-
+#     lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) is defined and
+#     lookup('env', 'JAVA_MAC_LOCAL_INSTALLERS_PATH' ) != ''

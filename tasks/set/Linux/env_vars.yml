@@ -1,7 +1,14 @@
 ---
-- name: Set java_installers_path (Linux)
+# - name: Set java_installers_path (Linux)
+#   set_fact:
+#     java_installers_path: "{{ lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' ) }}"
+#   when: |-
+#     lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' ) is defined and
+#     lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' )
+
+- name: Add Linux environment variables to java_local_installer_path_env_vars
   set_fact:
-    java_installers_path: "{{ lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' ) }}"
-  when: |-
-    lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' ) is defined and
-    lookup('env', 'JAVA_LINUX_LOCAL_INSTALLERS_PATH' )
+    java_local_installer_path_env_vars: "{{ java_local_installer_path_env_vars }} + [ '{{ item }}' ]"
+  loop:
+    - 'LINUX_LOCAL_INSTALLERS_PATH'
+    - 'JAVA_LINUX_LOCAL_INSTALLERS_PATH'

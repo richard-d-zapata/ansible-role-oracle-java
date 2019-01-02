@@ -1,6 +1,7 @@
 ---
-- debug:
-    msg: "Java features: {{ java_feature_list }}"
+- name: DEBUG (vv) - java_feature_list (Windows)
+  debug:
+    var: java_feature_list
     verbosity: 2
 
 - name: Install Java (Windows)

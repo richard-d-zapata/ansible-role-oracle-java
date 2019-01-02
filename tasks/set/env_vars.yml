@@ -20,16 +20,20 @@
     lookup('env', 'JAVA_INSTALLER_URL_PATH' ) is defined and
     lookup('env', 'JAVA_INSTALLER_URL_PATH' )
 
-- name: Set general java_installers_path
+- name: Add found paths to java_local_installers_path_list
   set_fact:
-    java_installers_path: "{{ lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' ) }}"
+    java_local_installers_path_list: "[ '{{ lookup('env', item) }}' ] + {{ java_local_installers_path_list }}"
+  loop: "{{ java_local_installer_path_env_vars | flatten(levels=1) }}"
   when: |-
-    java_installers_path is not defined and
-    ( lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' ) is defined and
-      lookup('env', 'JAVA_LOCAL_INSTALLERS_PATH' )
-    )
+    lookup('env', item) is defined and lookup('env', item)
 
-- name: Set java_installers_path_on_controller
+# The following is included to prevent a breaking change. This should be
+# removed when the next breaking change is made to the role.
+- name: Add java_installers_path to java_local_installers_path_list
   set_fact:
-    java_installers_path_on_controller: "{{ java_installers_path }}"
+    java_local_installers_path_list: "[ '{{ java_installers_path }}' ] + {{ java_local_installers_path_list }}"
   when: java_installers_path is defined and java_installers_path
+
+- name: INFO - java_local_installers_path_list
+  debug:
+    var: java_local_installers_path_list
