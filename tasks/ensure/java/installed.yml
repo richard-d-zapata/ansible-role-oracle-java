@@ -4,10 +4,3 @@
 - name: Ensure Java install is done
   include_tasks: "install/{{ ansible_facts.os_family }}/done.yml"
 
-- name: Ensure Java install directory is known
-  include_tasks: "install/directory/known.yml"
-
-- name: Debug java_path
-  debug:
-    msg: "Java path: {{ java_path }}"
-    verbosity: 2

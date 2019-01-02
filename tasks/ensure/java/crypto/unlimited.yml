@@ -3,5 +3,9 @@
   set_fact:
     java_security_path: "{{ java_path }}{{ java_security_subpath }}"
 
+- name: Check Java security strength
+  include_tasks: "check/{{ os_architecture }}/enabled.yml"
+
 - name: Ensure unlimited strength cryptography is enabled
   include_tasks: "{{ java_crypto_style }}/unlimited.yml"
+  when: not unlimited_strength

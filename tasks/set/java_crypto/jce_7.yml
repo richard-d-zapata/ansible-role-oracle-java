@@ -1,8 +1,12 @@
 ---
-- name: Set jce_archive_name (Java 7)
+- name: Set java_jce_archive_name (Java 7)
   set_fact:
-    jce_archive_name: "UnlimitedJCEPolicyJDK{{ java_version_parts['major'] }}.zip"
+    java_jce_archive_name: "UnlimitedJCEPolicyJDK{{ java_version_parts['major'] }}.zip"
 
 - name: Set jce_extracted_subpath (Java 7)
   set_fact:
     jce_extracted_subpath: UnlimitedJCEPolicy
+
+- name: Set java_jce_archive_name (Java 7)
+  set_fact:
+    java_jce_archive_url_path: "http://download.oracle.com/otn-pub/java/jce/{{ java_version_parts['major'] }}"

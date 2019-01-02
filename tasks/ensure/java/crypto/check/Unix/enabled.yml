@@ -1,0 +1,9 @@
+---
+- name: Check Java cryptography unlimited strength status (Unix)
+  shell: "jrunscript -e \"exit (println(javax.crypto.Cipher.getMaxAllowedKeyLength('AES') >= 256));\""
+  register: unlimited
+  changed_when: false
+
+- name: Set unlimited_strength (Unix)
+  set_fact:
+    unlimited_strength: '{{ unlimited.stdout | trim }}'

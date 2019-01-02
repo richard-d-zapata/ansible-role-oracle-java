@@ -10,7 +10,7 @@
 
 - name: Unzip JCE archive (Unix)
   unarchive:
-    src: "{{ java_installers_path_on_target }}/{{ jce_archive_name }}"
+    src: "{{ java_installers_path_on_target }}/{{ java_jce_archive_name }}"
     dest: "{{ jce_extract_path }}"
     remote_src: true
 

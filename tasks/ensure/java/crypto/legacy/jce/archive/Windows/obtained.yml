@@ -4,13 +4,83 @@
     path: "{{ java_installers_path_on_target }}"
     state: directory
 
-- name: Copy JCE archive to target (Windows)
-  win_copy:
-    src: "{{ java_installers_path_on_controller }}/{{ jce_archive_name }}"
-    dest: "{{ java_installers_path_on_target }}\\{{ jce_archive_name }}"
+- name: Check java_installers_path_on_target for JCE archive (Windows)
+  win_find:
+    paths: '{{ java_installers_path_on_target }}'
+    recurse: false
+    patterns: '{{ java_jce_archive_name }}'
+  register: target_found
 
-- name: Check JCE archive on target (Windows)
-  win_stat:
-    path: "\"{{ java_installers_path_on_target }}\\{{ jce_archive_name }}\""
-  register: archive
-  failed_when: archive.stat.exists != true
+- block:
+
+  - name: INFO - java_jce_archive_name (Windows)
+    debug:
+      var: java_jce_archive_name
+    when: java_jce_archive_name is defined
+
+  - name: Find local JCE archives (Windows)
+    find:
+      paths: '{{ java_local_installers_path_list }}'
+      recurse: false
+      patterns: '{{ java_jce_archive_name }}'
+    register: local_found
+    delegate_to: 127.0.0.1
+
+  - name: DEBUG (vv) - local JCE archive filepaths found (Windows)
+    debug:
+      var: local_found.files
+      verbosity: 2
+
+  - name: Set java_jce_local_archive_filepath (Windows)
+    set_fact:
+      java_jce_local_archive_filepath: '{{ (local_found.files | first).path }}'
+    when: local_found.files | length > 0
+
+  - name: INFO - java_jce_local_archive_filepath (Windows)
+    debug:
+      var: java_jce_local_archive_filepath
+    when: java_jce_local_archive_filepath is defined
+
+  - name: Copy JCE archive to target  (Windows)
+    win_copy:
+      src: "{{ java_jce_local_archive_filepath }}"
+      dest: "{{ java_installers_path_on_target }}\\{{ java_jce_archive_name }}"
+    when: java_jce_local_archive_filepath is defined
+
+  - name: Attempt to download JCE archive from Oracle (Windows)
+    win_get_url:
+      url: "{{ java_jce_archive_url_path }}/{{ java_jce_archive_name }}"
+      dest: "{{ java_installers_path_on_target }}"
+      headers: "{{ java_installer_url_headers }}"
+    when: |-
+      java_jce_local_archive_filepath is not defined or
+      not java_jce_local_archive_filepath
+
+  - name: Check for installer in java_installers_path_on_target (Windows)
+    win_stat:
+      path: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
+    register: installer
+    failed_when: installer.stat.exists != true
+
+  when: target_found.files | length == 0
+
+
+
+
+
+
+# - name: Ensure java_installers_path_on_target exists (Windows)
+#   win_file:
+#     path: "{{ java_installers_path_on_target }}"
+#     state: directory
+
+# - name: Copy JCE archive to target (Windows)
+#   win_copy:
+#     src: "{{ java_local_installers_path }}/{{ java_jce_archive_name }}"
+#     dest: "{{ java_installers_path_on_target }}\\{{ java_jce_archive_name }}"
+
+# - name: Check JCE archive on target (Windows)
+#   win_stat:
+#     path: "\"{{ java_installers_path_on_target }}\\{{ java_jce_archive_name }}\""
+#   register: archive
+#   failed_when: archive.stat.exists != true

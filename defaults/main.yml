@@ -4,7 +4,6 @@
 # as described at https://www.samdarwin.com/ansible-default-vars/
 
 java_type: jdk
-java_installers_path_on_controller: /Users/Shared/Installers
 
 # Until a method can be devised to programmatically determine the download path,
 # the version and url path will need to be specified here for the latest Java

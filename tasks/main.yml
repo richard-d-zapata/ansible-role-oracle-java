@@ -6,10 +6,11 @@
 
   - include_tasks: ensure/pre-reqs/exist.yml
   - include_tasks: ensure/java/installed.yml
-  - include_tasks: ensure/java/version/selected.yml
-  - include_tasks: ensure/java/crypto/unlimited.yml
 
   when: java_needs_to_be_installed | default(false) | bool
 
+- include_tasks: ensure/java/install/directory/known.yml
+- include_tasks: ensure/java/version/selected.yml
+- include_tasks: ensure/java/crypto/unlimited.yml
 - include_tasks: report/state.yml
 - include_tasks: log/test_vars.yml

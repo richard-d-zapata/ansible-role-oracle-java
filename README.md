@@ -68,12 +68,23 @@ computers.
 
 | Option                               | Default | Example                                                                                  |
 | :----------------------------------- | :------ | :--------------------------------------------------------------------------------------- |
+| `JAVA_VERSION`                       | none    | `10.0.2` or `1.8.0_192`                                                                  |
 | `JAVA_LINUX_LOCAL_INSTALLERS_PATH`   | none    | `/Users/Shared/Installers/Linux/Java`                                                    |
 | `JAVA_MAC_LOCAL_INSTALLERS_PATH`     | none    | `/Users/Shared/Installers/macOS/Java`                                                    |
 | `JAVA_WINDOWS_LOCAL_INSTALLERS_PATH` | none    | `/Users/Shared/Installers/Windows/Java`                                                  |
+| `LINUX_LOCAL_INSTALLERS_PATH`        | none    | `/Users/Shared/Installers/Linux`                                                         |
+| `MAC_LOCAL_INSTALLERS_PATH`          | none    | `/Users/Shared/Installers/macOS`                                                         |
+| `WINDOWS_LOCAL_INSTALLERS_PATH`      | none    | `/Users/Shared/Installers/Windows`                                                       |
 | `JAVA_LOCAL_INSTALLERS_PATH`         | none    | `/Users/Shared/Installers/Java`                                                          |
-| `JAVA_VERSION`                       | none    | `10.0.2` or `1.8.0_192`                                                                  |
+| `LOCAL_INSTALLERS_PATH`              | none    | `/Users/Shared/Installers`                                                               |
 | `JAVA_INSTALLER_URL_PATH`            | none    | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
+
+_Note: One or more of the `INSTALLERS_PATH` environment variables may be_
+_defined and the role will search the paths in the above order until it_
+_finds an installer. If it does not find an installer locally, it will_
+_attempt to download the installer, but this is only likely to work for_
+_the latest installer versions, due to download restrictions that Oracle_
+_has in place._
 
 ## Role Variables
 
@@ -81,11 +92,18 @@ Variables that are targeted toward options to use during the execution of the
 roles are left to be specified as role variables and can be specified in the
 playbook itself or on the command line when running the playbook.
 
-| Option                    | Default                    | Example                                                                                  |
-| :------------------------ | :------------------------- | :--------------------------------------------------------------------------------------- |
-| `java_version`            | `11.0.1`                   | `10.0.2` or `1.8.0_192`                                                                  |
-| `java_installers_path`    | `/Users/Shared/Installers` | `/Users/Shared/Installers/Java`                                                          |
-| `java_installer_url_path` | current URL                | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
+| Option                      | Default                      | Example                                                                                  |
+| :-------------------------- | :--------------------------- | :--------------------------------------------------------------------------------------- |
+| `java_version`              | `11.0.1`                     | `10.0.2` or `1.8.0_192`                                                                  |
+| `java_installers_path_list` | [`/Users/Shared/Installers`] | [`/Users/Shared/Installers`,`/Users/myaccount/Desktop`]                                  |
+| `java_installer_url_path`   | see `main.yml` in `defaults` | `http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7` |
+
+_Note: Using `java_installers_path_list` or `java_installer_url_path` might_
+_not be considered "normal usage", but is supported for use in playbooks or_
+_other scenarios in which it makes sense._
+
+_Note: Using `java_installers_path` is still supported, but is deprecated_
+_and will be removed with the next breaking change._
 
 ## Dependencies
 
@@ -149,12 +167,12 @@ _be installed by the above playbook._
 
 If you really want it to be quick and easy:
 
-    export JAVA_LOCAL_INSTALLERS_PATH="$HOME/Downloads"
+    export LOCAL_INSTALLERS_PATH="$HOME/Downloads"
 
 Or, you could always move the installers to a more permanent default location
 after downloading them and then point to that location:
 
-    /Users/Shared/Installers/Java
+    export JAVA_LOCAL_INSTALLERS_PATH="/Users/Shared/Installers/Java"
 
 If you like to keep things neat and organized, you might organize the installers
 into folders, create a file named something like `setup` in a directory named

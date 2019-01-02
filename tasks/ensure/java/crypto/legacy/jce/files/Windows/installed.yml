@@ -10,7 +10,7 @@
 
 - name: Unzip JCE archive (Windows)
   win_unzip:
-    src: "{{ java_installers_path_on_target }}\\{{ jce_archive_name }}"
+    src: "{{ java_installers_path_on_target }}\\{{ java_jce_archive_name }}"
     dest: "{{ jce_extract_path }}"
     remote_src: true
 
@@ -19,11 +19,9 @@
     src: "{{ jce_extract_path }}\\{{ jce_extracted_subpath }}\\local_policy.jar"
     dest: "{{ java_security_path }}\\local_policy.jar"
     remote_src: true
-  become: true
 
 - name: Install JCE US_export_policy.jar file (Windows)
   win_copy:
     src: "{{ jce_extract_path }}\\{{ jce_extracted_subpath }}\\US_export_policy.jar"
     dest: "{{ java_security_path }}\\US_export_policy.jar"
     remote_src: true
-  become: true
